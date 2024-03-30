@@ -29,26 +29,59 @@ Node * createNode(void * data) {
 }
 
 List * createList() {
-     return NULL;
+  
+  List *lista = (List*)malloc(sizeof(List)); 
+
+  lista->head = NULL;     
+  lista->tail = NULL;      
+  lista->current = NULL;   
+    
+  return lista;
+
 }
 
 void * firstList(List * list) {
-    return NULL;
+  if (list == NULL || list->head == NULL) return NULL;
+
+  list->current = list->head;
+  return list->head->data;  
 }
 
 void * nextList(List * list) {
-    return NULL;
+  if (list == NULL || list->current == NULL || list->current->next == NULL) return NULL;
+  
+  list->current = list->current->next;
+  
+  return list->current->data;
 }
 
 void * lastList(List * list) {
-    return NULL;
+  if (list == NULL || list->tail == NULL) return NULL;
+
+  list->current = list->tail;
+  
+    return list->tail->data;
 }
 
 void * prevList(List * list) {
-    return NULL;
+   if (list == NULL || list->current == NULL || list->current->prev == NULL) return NULL;
+
+  list->current = list->current->prev;
+  
+  return list->current->data;
 }
 
 void pushFront(List * list, void * data) {
+
+  Node *nodoNuevo = createNode(data);
+  
+  if (list->head == NULL){
+   list->head = list->tail = nodoNuevo;
+  } else {
+    nodoNuevo->next = list->head;
+    list->head->prev = nodoNuevo;
+    list->head = nodoNuevo;
+  }
 }
 
 void pushBack(List * list, void * data) {
@@ -57,6 +90,17 @@ void pushBack(List * list, void * data) {
 }
 
 void pushCurrent(List * list, void * data) {
+//insertar un elemento dsps de list->current
+  Node *nodoNuevo = createNode(data);
+  if (list->current == NULL)
+  {
+    list->current = nodoNuevo;
+  } else {
+    nodoNuevo->prev = list->current;
+    list->current->next = nodoNuevo;
+    list->tail->next = nodoNuevo;
+    
+  }
 }
 
 void * popFront(List * list) {
